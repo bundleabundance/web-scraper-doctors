@@ -1,0 +1,9 @@
+from django.contrib.auth import logout
+
+class UserViewSet(viewsets.ModelViewSet):
+    # Existing code ...
+
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        logout(request)
+        return Response({'detail': 'Logout successful'}, status=status.HTTP_200_OK)

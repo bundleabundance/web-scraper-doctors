@@ -1,0 +1,153 @@
+[
+   
+    {
+      "model": "doctor_scraper.institution",
+      "pk": 1,
+      "fields": {
+        "name": "Hospital A",
+        "location": "City X",
+        "services_offered": "Service X, Service Y"
+      }
+    },
+    {
+      "model": "doctor_scraper.institution",
+      "pk": 2,
+      "fields": {
+        "name": "Clinic B",
+        "location": "City Y",
+        "services_offered": "Service Z, Service W"
+      }
+    },
+    {
+      "model": "doctor_scraper.insurance",
+      "pk": 1,
+      "fields": {
+        "name": "Insurance A",
+        "coverage_details": "Coverage details for Insurance A"
+      }
+    },
+    {
+      "model": "doctor_scraper.insurance",
+      "pk": 2,
+      "fields": {
+        "name": "Insurance B",
+        "coverage_details": "Coverage details for Insurance B"
+      }
+    },
+    {
+      "model": "doctor_scraper.doctor",
+      "pk": 1,
+      "fields": {
+        "user": 2,
+        "specialty": "Specialty X",
+        "institution": 1,
+        "experience": 5,
+        "gender": "Male",
+        "languages_spoken": "English, Spanish",
+        "accepted_insurance_providers": [1, 2]
+      }
+    },
+    {
+      "model": "doctor_scraper.doctor",
+      "pk": 2,
+      "fields": {
+        "user": 3,
+        "specialty": "Specialty Y",
+        "institution": 2,
+        "experience": 8,
+        "gender": "Female",
+        "languages_spoken": "English, French",
+        "accepted_insurance_providers": [2]
+      }
+    },
+    {
+      "model": "doctor_scraper.patient",
+      "pk": 1,
+      "fields": {
+        "user": 1,
+        "date_of_birth": "1990-01-01",
+        "gender": "Male",
+        "location": "City Z",
+        "insurance": 1
+      }
+    },
+    {
+      "model": "doctor_scraper.patient",
+      "pk": 2,
+      "fields": {
+        "user": 3,
+        "date_of_birth": "1985-05-05",
+        "gender": "Female",
+        "location": "City Y",
+        "insurance": 2
+      }
+    },
+    {
+      "model": "doctor_scraper.healthrecord",
+      "pk": 1,
+      "fields": {
+        "patient": 1,
+        "allergies": "Allergy A, Allergy B",
+        "past_surgeries": "Surgery X, Surgery Y",
+        "ongoing_treatments": "Treatment Z",
+        "family_history": "Family History X, Family History Y"
+      }
+    },
+    {
+      "model": "doctor_scraper.healthrecord",
+      "pk": 2,
+      "fields": {
+        "patient": 2,
+        "allergies": "Allergy C",
+        "past_surgeries": "Surgery Z",
+        "ongoing_treatments": "Treatment W",
+        "family_history": "Family History Z"
+      }
+    },
+    {
+      "model": "doctor_scraper.appointment",
+      "pk": 1,
+      "fields": {
+        "patient": 1,
+        "doctor": 1,
+        "time_slot": "2023-06-10T09:00:00Z",
+        "status": "scheduled",
+        "date": "2023-06-10"
+      }
+    },
+    {
+      "model": "doctor_scraper.appointment",
+      "pk": 2,
+      "fields": {
+        "patient": 2,
+        "doctor": 2,
+        "time_slot": "2023-06-12T14:30:00Z",
+        "status": "scheduled",
+        "date": "2023-06-12"
+      }
+    },
+    {
+      "model": "doctor_scraper.review",
+      "pk": 1,
+      "fields": {
+        "patient": 1,
+        "doctor": 1,
+        "rating": 4,
+        "review_text": "Good doctor, satisfied with the treatment",
+        "date": "2023-06-11"
+      }
+    },
+    {
+      "model": "doctor_scraper.review",
+      "pk": 2,
+      "fields": {
+        "patient": 2,
+        "doctor": 2,
+        "rating": 5,
+        "review_text": "Excellent doctor, highly recommended",
+        "date": "2023-06-13"
+      }
+    }
+  ]
+  
+ 

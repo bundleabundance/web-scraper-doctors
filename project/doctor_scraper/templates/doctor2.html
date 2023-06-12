@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <title>Doctors</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Find a Doctor</h1>
+
+        <!-- The filtering form -->
+        <form id="filterForm" class="mb-4">
+            <input name="name" class="form-control mb-2" type="text" placeholder="Name">
+            <input name="specialty" class="form-control mb-2" type="text" placeholder="Specialty">
+            <input name="institution" class="form-control mb-2" type="number" placeholder="Institution ID">
+            <input name="experience__gte" class="form-control mb-2" type="number" placeholder="Experience greater than or equal to">
+            <input name="experience__lte" class="form-control mb-2" type="number" placeholder="Experience less than or equal to">
+            <input name="gender" class="form-control mb-2" type="text" placeholder="Gender">
+            <input name="languages_spoken" class="form-control mb-2" type="text" placeholder="Languages spoken">
+            <input name="accepted_insurance_providers" class="form-control mb-2" type="number" placeholder="Accepted insurance providers ID">
+            <input name="distance__gte" class="form-control mb-2" type="number" placeholder="Distance greater than or equal to">
+            <input name="distance__lte" class="form-control mb-2" type="number" placeholder="Distance less than or equal to">
+            <input name="points__gte" class="form-control mb-2" type="number" placeholder="Points greater than or equal to">
+            <input name="points__lte" class="form-control mb-2" type="number" placeholder="Points less than or equal to">
+            <select name="ordering" class="form-control mb-2">
+                <option value="">Sort by...</option>
+                <option value="name">Name</option>
+                <option value="experience">Experience</option>
+                <option value="distance">Distance</option>
+                <option value="points">Points</option>
+            </select>
+            <button class="btn btn-primary" type="button" onclick="fetchDoctors()">Submit</button>
+        </form>
+
+        <div id="doctors" class="row">
+            <!-- Doctors will be inserted here -->
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchDoctors();
+    });
+
+    function fetchDoctors() {
+        // Initialize an empty query string
+        let query = '';
+        const filterForm = document.getElementById('filterForm');
+
+        // For each input in the form
+        for (let input of filterForm) {
+            // If the input has a name and a value
+            if (input.name && input.value) {
+                // Add it to the query string
+                query += `&${input.name}=${input.value}`;
+            }
+        }
+
+        // Fetch the doctors with the updated query string
+        fetch('http://127.0.0.1:8000/doctors?' + query)
+            .then(response => response.json())
+            .then(data => displayDoctors(data));
+    }
+
+    function displayDoctors(doctors) {
+        const doctorsDiv = document.getElementById('doctors');
+        doctorsDiv.innerHTML = '';  // Clear the div
+
+        for (let doctor of doctors) {
+            // Create the HTML for each doctor
+            const doctorHTML = `
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">${doctor.name}</h5>
+                            <p class="card-text">${doctor.specialty}</p>
+                            <p class="card-text">${doctor.institution_name}</p>
+                            <p class="card-text">Distance: ${doctor.distance}</p>
+                            <a href="doctor.html?id=${doctor.id}" class="btn btn-primary">View Profile</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            doctorsDiv.innerHTML += doctorHTML;
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <title>Doctors</title>
+</head>
+<style>
+    .doctor {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .star-icon {
+        color: gray;
+    }
+
+    .star-icon.filled {
+        color: gold;
+    }
+</style>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Find a Doctor</h1>
+
+        <!-- The filtering form -->
+        <form id="filterForm" class="mb-4">
+            <div class="form-group">
+                <label for="filterSelect">Filter by...</label>
+                <select id="filterSelect" class="form-control">
+                    <option value="">Filter by...</option>
+                    <option value="name">Name</option>
+                    <option value="specialty">Specialty</option>
+                    <option value="institution">Institution ID</option>
+                    <option value="experience">Experience</option>
+                    <option value="gender">Gender</option>
+                    <option value="languages_spoken">Languages spoken</option>
+                    <option value="accepted_insurance_providers">Accepted insurance providers ID</option>
+                    <option value="distance">Distance</option>
+                    <option value="points">Points</option>
+                    <option value="ordering">Sort by</option>
+                </select>
+            </div>
+            <!-- The dynamic input field -->
+            <div class="form-group">
+                <input id="filterInput" class="form-control" type="text" placeholder="Enter filter value" style="display: none;">
+            </div>
+        </form>
+
+        <div id="doctors" class="row">
+            <!-- Doctors will be inserted here -->
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchDoctors();
+        });
+
+        document.getElementById('filterSelect').addEventListener('change', function () {
+            document.getElementById('filterInput').style.display = 'block';
+            document.getElementById('filterInput').placeholder = `Enter ${this.value}`;
+            document.getElementById('filterInput').name = this.value;
+        });
+
+        document.getElementById('filterInput').addEventListener('input', function () {
+            fetchDoctors();
+        });
+
+        function fetchDoctors() {
+            // Initialize an empty query string
+            let query = '';
+            const filterInput = document.getElementById('filterInput');
+
+            // If the input has a name and a value
+            if (filterInput.name && filterInput.value) {
+                // Add it to the query string
+                query += `&${filterInput.name}=${filterInput.value}`;
+            }
+
+            // Fetch the doctors with the updated query string
+            fetch('http://127.0.0.1:8000/doctors?' + query)
+                .then(response => response.json())
+                .then(data => displayDoctors(data));
+        }
+
+        function displayDoctors(doctors) {
+            const doctorsDiv = document.getElementById('doctors');
+            doctorsDiv.innerHTML = '';  // Clear the div
+
+            for (let doctor of doctors) {
+                // Create the HTML for each doctor
+                const doctorHTML = `
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-user-md specialty-icon"></i> ${doctor.name}
+                            </h5>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt location-icon"></i> ${doctor.specialty}
+                            </p>
+                            <p class="card-text">
+                                <i class="fas fa-building institution-icon"></i> ${doctor.institution_name}
+                            </p>
+                            <p class="card-text">
+                                <i class="fas fa-location-arrow"></i> Distance: ${doctor.distance}
+                            </p>
+                            <div class="rating">
+                                ${generateRatingStars(doctor.rating)}
+                            </div>
+                            <a href="http://127.0.0.1:8000/doctor_personalpage/?doctorId=${doctor.id}" class="btn btn-primary">
+                                <i class="fas fa-user profile-icon"></i> View Profile
+                            </a>
+                            <a href="http://127.0.0.1:8000/doctor_review/?doctorId=${doctor.id}">
+                                <button class="btn btn-secondary comment-button">
+                                    <i class="fas fa-comment comment-icon"></i> Add Comment
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+                doctorsDiv.innerHTML += doctorHTML;
+            }
+        }
+
+        function generateRatingStars(rating) {
+            let starsHTML = '';
+            const fullStar = '<i class="fas fa-star"></i>';
+            const halfStar = '<i class="fas fa-star-half-alt"></i>';
+            const emptyStar = '<i class="far fa-star"></i>';
+            // Generate filled stars
+            for (let i = 0; i < Math.floor(rating); i++) {
+                starsHTML += fullStar;
+            }
+            // If there is a half star
+            if (rating % 1 !== 0) {
+                starsHTML += halfStar;
+            }
+            // Generate empty stars
+            for (let i = 0; i < (5 - Math.ceil(rating)); i++) {
+                starsHTML += emptyStar;
+            }
+            return starsHTML;
+        }
+    </script>
+</body>
+</html>

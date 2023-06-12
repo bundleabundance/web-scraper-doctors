@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Doctor Review</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" 
+          crossorigin="anonymous">
+    <style>
+        .fa-star.checked {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Review Doctor</h2>
+        <div id="doctorInfo">
+            <!-- Doctor information will be populated here by JavaScript -->
+        </div>
+        <hr>
+        <h3>Your Review</h3>
+        <div id="starRating">
+            <!-- Star rating will be populated here by JavaScript -->
+        </div>
+        <form id="reviewForm">
+            <div class="form-group">
+                <label for="reviewText">Review</label>
+                <textarea class="form-control" id="reviewText" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script>// Get the doctor ID from somewhere, e.g. the URL
+        const doctorId = window.location.search.split('=')[1];
+        
+        // Replace with your API endpoint
+        fetch(`http://localhost:8000/doctors/${doctorId}`)
+            .then(response => response.json())
+            .then(doctor => {
+                $('#doctorInfo').html(`
+                    <img src="${doctor.photo}" alt="Doctor's photo" class="img-fluid rounded-circle mb-4" />
+                    <h3>${doctor.name}</h3>
+                    <p>Specialty: ${doctor.specialty}</p>
+                    <p>Phone: ${doctor.phone}</p>
+                `);
+        
+                // Populate star rating
+                for(let i = 1; i <= 5; i++){
+                    $('#starRating').append(`
+                        <span class="fa fa-star" onclick="setRating(${i})"></span>
+                    `);
+                }
+            });
+        
+        let rating = 0;
+        function setRating(i){
+            rating = i;
+            // Highlight the stars
+            $('#starRating .fa').removeClass('checked');
+            for(let j = 1; j <= i; j++){
+                $('#starRating .fa:nth-child('+j+')').addClass('checked');
+            }
+        }
+        
+        // Replace with your API endpoint
+        $('#reviewForm').submit(e => {
+            e.preventDefault();
+            fetch('http://localhost:8000/reviews/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include your authentication headers
+                },
+                body: JSON.stringify({
+                    doctor: doctorId,
+                    rating: rating,
+                    review_text: $('#reviewText').val(),
+                    // Include any other necessary fields
+                })
+            })
+            .then(response => response.json())
+            .then(review => alert('Review submitted!'))
+            .catch(error => alert('An error occurred.'));
+        });</script> <!-- link to your external js file -->
+</body>
+</html>
