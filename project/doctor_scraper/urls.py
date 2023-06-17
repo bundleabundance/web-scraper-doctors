@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, DoctorViewSet, InstitutionViewSet, InsuranceViewSet, PatientViewSet, HealthRecordViewSet, AppointmentViewSet, ReviewViewSet,my_view,doctor,doctor2,doctor_review,doctor_personalpage,media_view,scrape_doctors_endpoint,CvViewSet
+from .views import UserViewSet, DoctorViewSet, InstitutionViewSet, InsuranceViewSet, PatientViewSet, HealthRecordViewSet, AppointmentViewSet, ReviewViewSet,my_view,doctor,doctor2,doctor3,doctor_review,doctor_personalpage,media_view,scrape_doctors_endpoint,CvViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,7 +26,7 @@ router.register('users', UserViewSet, basename='user')
 router.register('doctors', DoctorViewSet, basename='doctor')
 router.register('institutions', InstitutionViewSet, basename='institution')
 router.register('insurances', InsuranceViewSet, basename='insurance')
-router.register('patients', PatientViewSet, basename='patient')
+router.register('patients', PatientViewSet, basename='patient') 
 router.register('health_records', HealthRecordViewSet, basename='healthrecord')
 router.register('appointments', AppointmentViewSet, basename='appointment')
 router.register('reviews', ReviewViewSet, basename='review')
@@ -36,6 +36,7 @@ urlpatterns = [
     path('my-url/', my_view, name='my_view'),
     path('doctor/', doctor, name='doctor'),
         path('doctor2/', doctor2, name='doctor'),
+        path('doctor3/', doctor3, name='doctor'),
         path('doctor_review/', doctor_review, name='doctor'),
     path('doctor_personalpage/', doctor_personalpage, name='doctor'),
         path('media/<path:file_path>', media_view, name='media'),
