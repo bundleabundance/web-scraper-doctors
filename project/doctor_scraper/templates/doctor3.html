@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Page</title>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	  <!-- FontAwesome -->
+	  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+	<style type="text/css" rel="stylesheet">
+		#filters {
+			  margin-bottom: 20px;
+			}
+
+			.doctor {
+			  border: 1px solid #ccc;
+			  padding: 10px;
+			  margin-bottom: 10px;
+			}
+			
+			 .doctor-buttons {
+			  display: flex;
+			  justify-content: flex-end;
+			  margin-top: 10px;
+			}
+
+			.doctor-buttons button {
+			  margin-left: 10px;
+			  border-radius: 20px; /* Rounded corners */
+			  background-color: #3b5998; /* Sweet blue tone */
+			  color: #fff; /* Text color */
+			  padding: 8px 16px; /* Adjust padding as needed */
+			  font-size: 14px; /* Adjust font size as needed */
+			}
+			.doctor-buttons button:hover {
+			   background-color: #2a3f6d; /* Darker shade on hover */
+			}
+			.rating-container {
+			  display: flex;
+			  align-items: center;
+			}
+
+			#doctor-rating {
+			  width: 200px;
+			  margin-right: 10px;
+			  background: transparent;
+			  -webkit-appearance: none;
+			  appearance: none;
+			}
+
+			#doctor-rating:focus {
+			  outline: none;
+			}
+
+			.rating-bar {
+			  width: 100%;
+			  height: 10px;
+			  background-color: #3b5998; /* Adjust the background color here */
+			  border-radius: 5px;
+			  position: relative;
+			  overflow: hidden;
+			}
+
+			.rating-fill {
+			  position: absolute;
+			  top: 0;
+			  left: 0;
+			  width: 0;
+			  height: 100%;
+			  background-color: #3b5998; /* Adjust the fill color here */
+			  transition: width 0.3s;
+			}
+
+			#rating-value {
+			  font-weight: bold;
+			}
+
+			#doctor-rating::-webkit-slider-thumb {
+			  -webkit-appearance: none;
+			  appearance: none;
+			  width: 20px;
+			  height: 20px;
+			  background-color: white;
+			  border: 2px solid #3b5998; /* Adjust the thumb border color here */
+			  border-radius: 50%;
+			  cursor: pointer;
+			  z-index: 1;
+			  position: relative;
+			}
+
+			#doctor-rating::-moz-range-thumb {
+			  width: 20px;
+			  height: 20px;
+			  background-color: white;
+			  border: 2px solid #3b5998; /* Adjust the thumb border color here */
+			  border-radius: 50%;
+			  cursor: pointer;
+			  z-index: 1;
+			  position: relative;
+			}
+			.btn {
+			  margin-left: 10px;
+			  border-radius: 20px;
+			  background-color: #3b5998;
+			  color: #fff;
+			  padding: 8px 16px;
+			  font-size: 14px;
+			}
+
+			.btn:hover {
+			  background-color: #2a3f6d;
+			}
+			.card {
+			  border: 1px solid #ccc;
+			  border-radius: 8px;
+			  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			.card-img {
+			  height: 100%;
+			  object-fit: cover;
+			  border-top-left-radius: 8px;
+			  border-bottom-left-radius: 8px;
+			}
+
+			.card-body {
+			  padding: 20px;
+			}
+
+			.card-title {
+			  font-size: 18px;
+			  font-weight: bold;
+			  margin-bottom: 10px;
+			}
+
+			.card-text {
+			  margin-bottom: 10px;
+			}
+
+			.text-muted {
+			  color: #888;
+			}
+
+			.card-rating {
+			  display: flex;
+			  align-items: center;
+			  margin-bottom: 10px;
+			}
+
+			.rating-stars {
+			  margin-left: 5px;
+			  font-size: 20px;
+			}
+
+			.doctor-buttons {
+			  display: flex;
+			  justify-content: flex-end;
+			}
+
+			.btn {
+			  margin-left: 10px;
+			  border-radius: 20px;
+			  background-color: #3b5998;
+			  color: #fff;
+			  padding: 8px 16px;
+			  font-size: 14px;
+			}
+
+			.btn:hover {
+			  background-color: #2a3f6d;
+			}
+
+			body {
+			  font-family: 'Roboto', sans-serif;
+			}
+			.circular-image {
+  width: 320px; /* Adjust the width to your desired size */
+  height: 320px; /* Adjust the height to your desired size */
+  border-radius: 50%;
+  object-fit: cover; /* Preserve the aspect ratio and crop if necessary */
+}
+
+	</style>
+</head>
+<body>
+	<div class="row mt-4">
+		<div class="col-md-2">
+			<div class="container">
+				<h4>Filter By</h4>
+				<div class="form-group">
+					<div id="map" style="height: 150px;"></div>
+				</div>
+				<div class="form-group">
+					<label for="doctor-name">Doctor Name:</label>
+					<input type="text" class="form-control" id="doctor-name">
+				</div>
+
+				<div class="form-group">
+					<label for="specialty">Specialty:</label>
+					<input type="text" class="form-control" id="specialty">
+				</div>
+
+				<div class="form-group">
+					<label for="institutions">Institution:</label>
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="publichospital" value="Public Hospital">
+						<label class="form-check-label" for="publichospital">Public Hospital</label>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="privatehospital" value="Private Hospital">
+						<label class="form-check-label" for="privatehosptal">Private Hospital</label>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" class="form-check-input" id="Clinic" value="Clinic">
+						<label class="form-check-label" for="clinic">Clinic</label>
+					</div>
+					
+
+				</div>
+				
+				<div class="form-group">
+					<label for="insurance-type">Insurance Type:</label>
+					<select class="form-control" id="insurance-type">
+						<option value="all">All</option>
+						<option value="private">Private</option>
+						<option value="government">Government</option>
+						<option value="none">None</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+				  <label for="doctor-rating">Doctor Rating:</label>
+				  <div class="rating-container">
+					<input type="range" class="form-control-range" id="doctor-rating" min="1" max="5" step="1" value="1">
+					<div class="rating-bar">
+					  <div class="rating-fill"></div>
+					</div>
+					<span id="rating-value">1</span>
+				  </div>
+				</div>
+
+
+				<button class="btn btn-primary doctor-buttons" onclick="applyFilters()">Apply Filters</button>
+			</div>
+		</div>
+		<div class="col-md-8 mt-2" id="doctor">
+
+
+			<div id="doctors" class="row">
+				<!-- Doctors will be inserted here -->
+			</div>
+		</div>
+	</div>
+    <script>
+	  document.addEventListener('DOMContentLoaded', function () {
+		console.log("hello");
+            fetchDoctors();
+			
+		});
+ 
+
+
+function initializeMap() {
+        var map = L.map('map').setView([40.7128, -74.0060], 10); // Set the initial map view coordinates
+
+        // Add the base tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Loop through the doctor locations and add markers to the map
+        doctorLocations.forEach(function(location) {
+            L.marker(location).addTo(map);
+        });
+    }
+
+    // Call the initializeMap function when the page has finished loading
+    window.onload = function() {
+        initializeMap();
+    };
+
+	function fetchDoctors() {
+
+
+            // Fetch the doctors with the updated query string
+            fetch('http://127.0.0.1:8000/doctors?')
+                .then(response => response.json())
+                .then(data => displayDoctors(data));
+        }
+
+
+        function displayDoctors(doctors) {
+            const doctorsDiv = document.getElementById('doctors');
+            doctorsDiv.innerHTML = '';  // Clear the div
+
+            for (let doctor of doctors) {
+                // Create the HTML for each doctor
+                const doctorHTML = 
+				`
+				<div class="row">
+					<div class="card col-md-12 mt-2">
+					  <div class="row no-gutters">
+						<div class="col-md-4">
+						  <img src="${doctor.photo}" class="circular-image" onerror="this.src='https://www.chavanhospital.com/opd/dbimage/doctorprofile.png'">
+						</div>
+						<div class="col-md-8">
+						  <div class="card-body">
+							
+							<h5 class="card-title">${doctor.name}</h5>
+							<h6 class="card-title">${doctor.specialty}</h6>
+							<h6 class="card-title">${doctor.institution.name}</h6>
+							<h6 class="card-title">${doctor.institution.location}</h6>
+							<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+							 <span class="text-muted">Rating: </span>
+							 ${generateRatingStars(doctor.rating)}
+							</p>
+							<div class="doctor-buttons">
+									<button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+									<button class="btn btn-primary" onclick="addComment()">Add Comment</button>
+									<button class="btn btn-primary" onclick="takeAppointment()">Take Appointment</button>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					</div>	
+					`;
+
+
+					
+                doctorsDiv.innerHTML += doctorHTML;
+            }
+		}
+
+        function generateRatingStars(rating) {
+            let starsHTML = '';
+            const fullStar = '<i class="fas fa-star"></i>';
+            const halfStar = '<i class="fas fa-star-half-alt"></i>';
+            const emptyStar = '<i class="far fa-star"></i>';
+            // Generate filled stars
+            for (let i = 0; i < Math.floor(rating); i++) {
+                starsHTML += fullStar;
+            }
+            // If there is a half star
+            if (rating % 1 !== 0) {
+                starsHTML += halfStar;
+            }
+            // Generate empty stars
+            for (let i = 0; i < (5 - Math.ceil(rating)); i++) {
+                starsHTML += emptyStar;
+            }
+			console.log(starsHTML);
+            return starsHTML;
+        }
+    </script>
+</body>
+</html>

@@ -77,6 +77,8 @@ def doctor(request):
 def doctor2(request):
     return render(request, 'doctor2.html')
 
+def doctor3(request):
+    return render(request, 'doctor3.html')
 def doctor_review(request):
     return render(request, 'doctor_review.html')
 
