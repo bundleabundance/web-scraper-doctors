@@ -1,0 +1,260 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.banner {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(images/background_doctor.jpg);
+    background-size: cover;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    filter: grayscale(100%) brightness(10000%);
+}
+
+.navbar {
+    width: 85%;
+    margin: auto;
+    padding: 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after {
+    content: "";
+    height: 3px;
+    width: 0%;
+    background: #008688;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+}
+
+.content h1 {
+    font-size: 70px;
+    margin-top: 80px;
+}
+
+.content p {
+    margin: 20px;
+    font-weight: 100%;
+    line-height: 25px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #008688;
+    border-radius: 25px;
+}
+
+.search-button {
+    width: 100px;
+    padding: 10px 20px;
+    text-align: center;
+    margin: 0px 10px;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #008688;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-button span {
+    background-color: #008688;
+    height: 100%;
+    width: 0%;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 0.5s;
+}
+
+button:hover span {
+    width: 100%;
+}
+
+button:hover {
+    border: none;
+}
+
+/* Doctor list page. */
+.list-body {
+    background-color: #fff;
+}
+
+.navbar-container {
+    background-color: #008688;
+}
+
+.navbar-container ul li::after {
+    height: 3px;
+    width: 0%;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar-container ul li:hover::after {
+    width: 100%;
+}
+
+.list-container {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.left-col {
+    flex-basis: 25%;
+    margin-left: 5%;
+}
+
+.right-col {
+    flex-basis: 60%;
+    margin-right: 5%;
+}
+
+.right-col p {
+    color: #008688;
+    margin-bottom: 10px;
+}
+
+.right-col h1 {
+    color: #008688;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.right-col h3 {
+    color: #008688;
+    font-weight: 600;
+}
+
+.doctor {
+    background-color: #ffffff88;
+    border-top: 2px solid #008688;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 30px 0;
+    border-top: 1px solid silver;
+}
+
+.doctor-image {
+    flex-basis: 25%;
+}
+
+.doctor-image img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.doctor-info {
+    flex-basis: 70%;
+}
+
+.doctor-info h3 {
+    font-weight: 600;
+    color: #008688;
+    font-size: 22px;
+    margin: 4px 0;
+}
+
+.star-rating span {
+    color: goldenrod;
+    font-size: 24px;
+}
+
+.doctor-price {
+    text-align: right;
+}
+
+.doctor-price h4 {
+    font-size: 24px;
+}
+
+.side-bar {
+    border: 1px solid silver;
+    padding: 20px 40px;
+    margin-top: 30px;
+}
+
+.side-bar h2 {
+    font-weight: 500;
+    color: #008688;
+}
+
+.side-bar h3 {
+    font-weight: 500;
+    color: #008688;
+    margin: 20px 0 10px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    color: #008688;
+    margin-bottom: 10px;
+}
+
+.filter p {
+    flex: 1;
+    color: black;
+}
+
+.filter input {
+    margin-right: 15px;
+    cursor: pointer;
+}
