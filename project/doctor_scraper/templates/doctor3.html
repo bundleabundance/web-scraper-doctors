@@ -29,13 +29,13 @@
 			.doctor-buttons button {
 			  margin-left: 10px;
 			  border-radius: 20px; /* Rounded corners */
-			  background-color: #3b5998; /* Sweet blue tone */
+			  background-color:  #008688; /* Sweet blue tone */
 			  color: #fff; /* Text color */
 			  padding: 8px 16px; /* Adjust padding as needed */
 			  font-size: 14px; /* Adjust font size as needed */
 			}
 			.doctor-buttons button:hover {
-			   background-color: #2a3f6d; /* Darker shade on hover */
+			   background-color: #00888A; /* Darker shade on hover */
 			}
 			.rating-container {
 			  display: flex;
@@ -57,7 +57,7 @@
 			.rating-bar {
 			  width: 100%;
 			  height: 10px;
-			  background-color: #3b5998; /* Adjust the background color here */
+			  background-color:  #008688; /* Adjust the background color here */
 			  border-radius: 5px;
 			  position: relative;
 			  overflow: hidden;
@@ -69,7 +69,7 @@
 			  left: 0;
 			  width: 0;
 			  height: 100%;
-			  background-color: #3b5998; /* Adjust the fill color here */
+			  background-color:  #008688; /* Adjust the fill color here */
 			  transition: width 0.3s;
 			}
 
@@ -83,7 +83,7 @@
 			  width: 20px;
 			  height: 20px;
 			  background-color: white;
-			  border: 2px solid #3b5998; /* Adjust the thumb border color here */
+			  border: 2px solid  #008688; /* Adjust the thumb border color here */
 			  border-radius: 50%;
 			  cursor: pointer;
 			  z-index: 1;
@@ -94,7 +94,7 @@
 			  width: 20px;
 			  height: 20px;
 			  background-color: white;
-			  border: 2px solid #3b5998; /* Adjust the thumb border color here */
+			  border: 2px solid  #008688; /* Adjust the thumb border color here */
 			  border-radius: 50%;
 			  cursor: pointer;
 			  z-index: 1;
@@ -103,14 +103,14 @@
 			.btn {
 			  margin-left: 10px;
 			  border-radius: 20px;
-			  background-color: #3b5998;
+			  background-color:  #008688;
 			  color: #fff;
 			  padding: 8px 16px;
 			  font-size: 14px;
 			}
 
 			.btn:hover {
-			  background-color: #2a3f6d;
+			  background-color: #00888A ;
 			}
 			.card {
 			  border: 1px solid #ccc;
@@ -162,14 +162,14 @@
 			.btn {
 			  margin-left: 10px;
 			  border-radius: 20px;
-			  background-color: #3b5998;
+			  background-color:  #008688;
 			  color: #fff;
 			  padding: 8px 16px;
 			  font-size: 14px;
 			}
 
 			.btn:hover {
-			  background-color: #2a3f6d;
+			  background-color:  #00888A !important;
 			}
 
 			body {
@@ -180,71 +180,161 @@
   height: 320px; /* Adjust the height to your desired size */
   border-radius: 50%;
   object-fit: cover; /* Preserve the aspect ratio and crop if necessary */
+  
+  
+  
+  
+}
+.logo {
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    filter: grayscale(100%) brightness(10000%);
+}
+
+.navbar {
+    width: 85%;
+    margin: auto;
+    padding: 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar ul li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after {
+    content: "";
+    height: 3px;
+    width: 0%;
+    background: #008688;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+.navbar-container {
+    background-color: #008688;
+}
+
+.navbar-container ul li::after {
+    height: 3px;
+    width: 0%;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar-container ul li:hover::after {
+    width: 100%;
 }
 
 	</style>
 </head>
 <body>
+    <!-- Navbar -->
+    <div class="navbar-container">
+        <div class="navbar">
+            <img class="logo" src="images/logo_doctor-finder.png">
+            <ul>
+                <li>
+                    <a href="page_home/index.html">Home</a>
+                </li>
+                <li>
+                    <a href="#">Doctors</a>
+                </li>
+                <li>
+                    <a href="#">Desizes</a>
+                </li>
+                <li>
+                    <a href="#">Departmants</a>
+                </li>
+                <li>
+                    <a href="#">Hospitals</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- End of Navbar -->
 	<div class="row mt-4">
-		<div class="col-md-2">
-			<div class="container">
-				<h4>Filter By</h4>
-				<div class="form-group">
-					<div id="map" style="height: 150px;"></div>
-				</div>
-				<div class="form-group">
-					<label for="doctor-name">Doctor Name:</label>
-					<input type="text" class="form-control" id="doctor-name">
-				</div>
-
-				<div class="form-group">
-					<label for="specialty">Specialty:</label>
-					<input type="text" class="form-control" id="specialty">
-				</div>
-
-				<div class="form-group">
-					<label for="institutions">Institution:</label>
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="publichospital" value="Public Hospital">
-						<label class="form-check-label" for="publichospital">Public Hospital</label>
+		<form id="filterForm" class="mb-4">
+			<div class="col-md-2">
+				<div class="container">
+					<h4>Filter By</h4>
+					<div class="form-group">
+						<div id="map" style="height: 150px;"></div>
 					</div>
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="privatehospital" value="Private Hospital">
-						<label class="form-check-label" for="privatehosptal">Private Hospital</label>
+					<div class="form-group">
+						<label for="doctor-name">Doctor Name:</label>
+						<input name="name" type="text" class="form-control" id="doctor-name">
 					</div>
-					<div class="form-check">
-						<input type="checkbox" class="form-check-input" id="Clinic" value="Clinic">
-						<label class="form-check-label" for="clinic">Clinic</label>
+
+					<div class="form-group">
+						<label for="specialty">Specialty:</label>
+						<input name="specialty" type="text" class="form-control" id="specialty">
+					</div>
+
+					<div class="form-group">
+						<label for="institutions">Institution:</label>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="publichospital" value="Public Hospital">
+							<label class="form-check-label" for="publichospital">Public Hospital</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="privatehospital" value="Private Hospital">
+							<label class="form-check-label" for="privatehosptal">Private Hospital</label>
+						</div>
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" id="Clinic" value="Clinic">
+							<label class="form-check-label" for="clinic">Clinic</label>
+						</div>
+						
+
 					</div>
 					
-
-				</div>
-				
-				<div class="form-group">
-					<label for="insurance-type">Insurance Type:</label>
-					<select class="form-control" id="insurance-type">
-						<option value="all">All</option>
-						<option value="private">Private</option>
-						<option value="government">Government</option>
-						<option value="none">None</option>
-					</select>
-				</div>
-
-				<div class="form-group">
-				  <label for="doctor-rating">Doctor Rating:</label>
-				  <div class="rating-container">
-					<input type="range" class="form-control-range" id="doctor-rating" min="1" max="5" step="1" value="1">
-					<div class="rating-bar">
-					  <div class="rating-fill"></div>
+					<div class="form-group">
+						<label for="insurance-type">Insurance Type:</label>
+						<select class="form-control" id="insurance-type">
+							<option value="all">All</option>
+							<option value="private">Private</option>
+							<option value="government">Government</option>
+							<option value="none">None</option>
+						</select>
 					</div>
-					<span id="rating-value">1</span>
-				  </div>
+
+					<div class="form-group">
+					  <label for="doctor-rating">Doctor Rating:</label>
+					  <div class="rating-container">
+						<input type="range" class="form-control-range" id="doctor-rating" min="1" max="5" step="1" value="1">
+						<div class="rating-bar">
+						  <div class="rating-fill"></div>
+						</div>
+						<span id="rating-value">1</span>
+					  </div>
+					</div>
+
+
+					<button class="btn btn-primary doctor-buttons" onclick="fetchDoctors()">Apply Filters</button>
 				</div>
-
-
-				<button class="btn btn-primary doctor-buttons" onclick="applyFilters()">Apply Filters</button>
 			</div>
-		</div>
+		</form>
 		<div class="col-md-8 mt-2" id="doctor">
 
 
