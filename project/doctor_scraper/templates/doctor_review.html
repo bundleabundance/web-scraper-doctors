@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load static %}
 <head>
     <title>Doctor Review</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" 
           crossorigin="anonymous">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
     <style>
         .fa-star.checked {
             color: orange;
@@ -13,6 +15,29 @@
     </style>
 </head>
 <body>
+    <div class="" style=" background-color: #008688;">
+        <!-- Navigation Bar -->
+        <div class="navbar">
+            <img class="logo" src="{% static 'images/logo_doctor-finder.png' %}">
+            <ul>
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">Doctors</a>
+                </li>
+                <li>
+                    <a href="#">Desizes</a>
+                </li>
+                <li>
+                    <a href="#">Departments</a>
+                </li>
+                <li>
+                    <a href="#">Hospitals</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="container mt-5">
         <h2>Review Doctor</h2>
         <div id="doctorInfo">
@@ -41,7 +66,7 @@
             .then(response => response.json())
             .then(doctor => {
                 $('#doctorInfo').html(`
-                    <img src="${doctor.photo}" alt="Doctor's photo" class="img-fluid rounded-circle mb-4" />
+                    <img src="${doctor.photo}" alt="Doctor's photo" class="img-fluid rounded-circle mb-4" onerror="this.src='https://www.chavanhospital.com/opd/dbimage/doctorprofile.png'" />
                     <h3>${doctor.name}</h3>
                     <p>Specialty: ${doctor.specialty}</p>
                     <p>Phone: ${doctor.phone}</p>
@@ -68,7 +93,12 @@
         // Replace with your API endpoint
         $('#reviewForm').submit(e => {
             e.preventDefault();
-            fetch('http://localhost:8000/reviews/', {
+            let current_date = new Date();
+        let year = current_date.getFullYear();
+        let month = (1 + current_date.getMonth()).toString().padStart(2, '0');
+        let day = current_date.getDate().toString().padStart(2, '0');
+        let formatted_date = year + '-' + month + '-' + day;
+            fetch('http://127.0.0.1:8000/reviews/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,6 +107,8 @@
                 body: JSON.stringify({
                     doctor: doctorId,
                     rating: rating,
+                    date:formatted_date,
+                    patient: '1',
                     review_text: $('#reviewText').val(),
                     // Include any other necessary fields
                 })

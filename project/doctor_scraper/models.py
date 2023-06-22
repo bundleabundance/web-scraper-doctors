@@ -87,7 +87,7 @@ class Appointment(models.Model):
     ]
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    time_slot = models.DateTimeField()
+    time_slot = models.TextField(default='00:00')
     status = models.CharField(choices=STATUS_CHOICES, default='scheduled', max_length=10)
     date = models.DateField()
 

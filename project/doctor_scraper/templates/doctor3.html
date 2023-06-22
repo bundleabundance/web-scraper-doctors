@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Filter Page</title>
@@ -252,10 +253,10 @@
     <!-- Navbar -->
     <div class="navbar-container">
         <div class="navbar">
-            <img class="logo" src="images/logo_doctor-finder.png">
+            <img class="logo" src="{% static 'images/logo_doctor-finder.png' %}">
             <ul>
                 <li>
-                    <a href="page_home/index.html">Home</a>
+                    <a href="/">Home</a>
                 </li>
                 <li>
                     <a href="#">Doctors</a>
@@ -408,9 +409,11 @@ function initializeMap() {
 							 ${generateRatingStars(doctor.rating)}
 							</p>
 							<div class="doctor-buttons">
-									<button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
-									<button class="btn btn-primary" onclick="addComment()">Add Comment</button>
-									<button class="btn btn-primary" onclick="takeAppointment()">Take Appointment</button>
+								
+        						<button class="btn btn-primary" onclick="viewProfile(${doctor.id})">View Profile</button>
+        						<button class="btn btn-primary" onclick="addComment(${doctor.id})">Add Comment</button>
+        						<button class="btn btn-primary" onclick="takeAppointment(${doctor.id})">Take Appointment</button>
+    
 							</div>
 						  </div>
 						</div>
@@ -444,6 +447,24 @@ function initializeMap() {
 			console.log(starsHTML);
             return starsHTML;
         }
+	
+
+
+// Example functions to handle button clicks
+function viewProfile(doctor) {
+    console.log('View Profile button clicked');
+	window.location.href = `http://127.0.0.1:8000/doctor_personalpage2/?doctor=${doctor}`;
+}
+
+function addComment(doctor) {
+    console.log('Add Comment button clicked');
+	window.location.href = `http://127.0.0.1:8000/doctor_review/?doctor=${doctor}`;
+}
+
+function takeAppointment(doctor) {
+    console.log('Take Appointment button clicked');
+	window.location.href = `http://127.0.0.1:8000/book_appointment/?doctor=${doctor}`;
+}
     </script>
 </body>
 </html>

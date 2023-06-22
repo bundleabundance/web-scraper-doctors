@@ -1,5 +1,5 @@
 import django_filters
-from .models import Doctor,Review,Cv
+from .models import Doctor,Review,Cv, Appointment
 
 class DoctorFilter(django_filters.FilterSet):
     class Meta:
@@ -25,3 +25,15 @@ class CvFilter(django_filters.FilterSet):
        fields = {
             'doctor': ['exact'],
              }
+       
+class AppointmentFilter(django_filters.FilterSet):
+    class Meta:
+        model = Appointment
+        fields = {
+            'patient': ['exact'],
+            'doctor': ['exact'],
+            'time_slot': ['exact', 'icontains'],
+            'status': ['exact'],
+            'date': ['exact', 'gt', 'lt'],
+        }
+        

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Doctor Profile</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+        <style>
+            body {
+                background: #f5f5f5;
+            }
+            .card {
+                border-radius: 15px;
+            }
+            .card img {
+                width: 150px;
+                height: 150px;
+            }
+            .card-info {
+                margin: 1rem 0;
+            }
+            .btn-outline-custom {
+                border-color: #28a745;
+                color: #28a745;
+            }
+            .btn-outline-custom:hover {
+                background-color: #28a745;
+                color: #fff;
+            }
+        </style>
+       
+    </head>
+    <body>
+        <div class="" style=" background-color: #008688;">
+            <!-- Navigation Bar -->
+            <div class="navbar">
+                <img class="logo" src="{% static 'images/logo_doctor-finder.png' %}">
+                <ul>
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Doctors</a>
+                    </li>
+                    <li>
+                        <a href="#">Desizes</a>
+                    </li>
+                    <li>
+                        <a href="#">Departments</a>
+                    </li>
+                    <li>
+                        <a href="#">Hospitals</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow">
+                        <div class="card-body p-5">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <img id="doctor-photo" src="" alt="Doctor's photo" class="img-fluid rounded-circle mb-3" />
+                                </div>
+                                <div class="col-md-8">
+                                    <h2 id="doctor-name" class="card-title"></h2>
+                                    <div class="card-info">
+                                        <p id="doctor-specialty" class="lead"></p>
+                                        <p id="doctor-institution"></p>
+                                        <p id="doctor-phone"></p>
+                                        <p id="doctor-sub-specialty"></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <button onclick="showLocation()" class="btn btn-outline-primary btn-lg btn-block">Location</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="showReviews()" class="btn btn-outline-info btn-lg btn-block">Reviews</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="showCV()" class="btn btn-outline-secondary btn-lg btn-block">CV</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="bookAppointment()" class="btn btn-outline-custom btn-lg btn-block">Appointment</button>
+                                </div>
+                                <div class="col-md-6 offset-md-3">
+                                    <button onclick="showTimetable()" class="btn btn-outline-danger btn-lg btn-block">Timetable</button>
+                                </div>
+                            </div>
+                            
+    
+                        </div>
+                    </div>
+    
+                    <div id="content" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        let doctorData;
+
+const doctorId = window.location.search.split('=')[1];
+fetch('http://127.0.0.1:8000/doctors/' + doctorId) // replace with your actual API endpoint
+    .then(response => response.json())
+    .then(data => {
+        doctorData = data;
+        console.log(doctorData) 
+        document.getElementById('doctor-name').textContent = data.name;
+        document.getElementById('doctor-photo').src = data.photo ? data.photo : "https://www.chavanhospital.com/opd/dbimage/doctorprofile.png";
+        document.getElementById('doctor-specialty').textContent = data.specialty;
+        document.getElementById('doctor-institution').textContent= data.institution.name;
+        document.getElementById('doctor-phone').textContent = data.phone;
+        document.getElementById('doctor-experience').textContent = `Experience: ${data.experience} years`;
+        document.getElementById('doctor-languages').textContent = `Languages: ${data.languages_spoken}`;
+        document.getElementById('doctor-gender').textContent = `Gender: ${data.gender}`;
+        string =doctorData.institution.location
+      
+     // Remove the square brackets and single quotes
+    var cleanedString = string.replace(/[\[\]']/g, '');
+
+    // Split the string by comma
+    var values = cleanedString.split(',');
+
+    // Extract latitude and longitude values
+    var latitude = parseFloat(values[0]);
+    var longitude = parseFloat(values[1]);
+        document.getElementById('doctor-location').textContent = `Location: ${latitude}, ${longitude}`;
+        document.getElementById('doctor-phone').textContent = `Phone: ${data.phone}`;
+        document.getElementById('doctor-email').textContent = `Email: ${data.email}`;
+        document.getElementById('doctor-sub-specialty').textContent = `Sub-specialty: ${data.sub_specialty}`;
+   
+    })
+    .catch(error => console.error('Error:', error));
+
+    function showCV() {
+    console.log(doctorData);
+    const contentDiv = document.getElementById('content');
+    // Check if CV data exists
+    if (doctorData.cv) {
+        let cv = doctorData.cv;
+        let cvHTML = '<h2>CV</h2>';
+        cvHTML += `<p><strong>Education:</strong> ${cv.educations}</p>`;
+        cvHTML += `<p><strong>Experience:</strong> ${cv.experience}</p>`;
+        cvHTML += `<p><strong>Awards:</strong> ${cv.awards}</p>`;
+        cvHTML += `<p><strong>Publications:</strong> ${cv.publications}</p>`;
+        contentDiv.innerHTML = cvHTML;
+    } else {
+        contentDiv.innerHTML = '<h2>CV</h2><p>No CV information available.</p>';
+    }
+}
+
+function showLocation() {
+    const contentDiv = document.getElementById('content');
+     console.log(doctorData.institution.location);
+    string =doctorData.institution.location
+     // Remove the square brackets and single quotes
+    var cleanedString = string.replace(/[\[\]']/g, '');
+
+    // Split the string by comma
+    var values = cleanedString.split(',');
+
+    // Extract latitude and longitude values
+    var latitude = parseFloat(values[0]);
+    var longitude = parseFloat(values[1]);
+    contentDiv.innerHTML = `<iframe 
+        width="600" 
+        height="450" 
+        style="border:0" 
+        loading="lazy" 
+        allowfullscreen 
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBccZhxAfi7o-uUg3eq9avZDr5etH7xs_U&q=${encodeURIComponent(latitude + "," + longitude)}">
+        </iframe>`;
+}
+function showReviews() {
+            const contentDiv = document.getElementById('content');
+            fetch(`http://127.0.0.1:8000/reviews/?doctor=${doctorData.id}`) // replace with your actual API endpoint
+                .then(response => response.json())
+                .then(reviews => {
+                    console.log(reviews); // Check the type and structure of the reviews variable
+
+                    let reviewsHTML = `<h2>Reviews</h2>`;
+                    reviews.forEach(review => {
+                        reviewsHTML +=`<p>${review.rating}/5 - ${review.review_text}</p>`;
+                    });
+                    contentDiv.innerHTML = reviewsHTML;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function showTimetable() {
+    const contentDiv = document.getElementById('content');
+    fetch(`http://127.0.0.1:8000/appointments/?doctor=${doctorData.id}`) // replace with your actual API endpoint
+        .then(response => response.json())
+        .then(appointments => {
+            console.log(appointments); // Check the type and structure of the appointments variable
+
+            let timetableHTML = '<h2 class="mb-4">Timetable</h2>';
+            timetableHTML += `
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Patient</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+            appointments.forEach(appointment => {
+                timetableHTML += `
+                    <tr>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time_slot}</td>
+                        <td>${appointment.patient}</td>
+                        <td class="text-capitalize">${appointment.status}</td>
+                    </tr>
+                `;
+            });
+            timetableHTML += `</tbody></table>`;
+            contentDiv.innerHTML = timetableHTML;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

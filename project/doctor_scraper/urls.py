@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, DoctorViewSet, InstitutionViewSet, InsuranceViewSet, PatientViewSet, HealthRecordViewSet, AppointmentViewSet, ReviewViewSet,my_view,doctor,doctor2,doctor3,doctor_review,doctor_personalpage,media_view,scrape_doctors_endpoint,CvViewSet
+from .views import index, UserViewSet, DoctorViewSet, InstitutionViewSet, InsuranceViewSet, PatientViewSet, HealthRecordViewSet, AppointmentViewSet, ReviewViewSet,my_view,doctor,doctor2,doctor3,doctor_review,doctor_personalpage,doctor_personalpage2,media_view,scrape_doctors_endpoint,CvViewSet,book_appointment
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,14 +33,17 @@ router.register('reviews', ReviewViewSet, basename='review')
 router.register('cv', CvViewSet, basename='cv')
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
     path('my-url/', my_view, name='my_view'),
     path('doctor/', doctor, name='doctor'),
-        path('doctor2/', doctor2, name='doctor'),
-        path('doctor3/', doctor3, name='doctor'),
-        path('doctor_review/', doctor_review, name='doctor'),
+    path('doctor2/', doctor2, name='doctor'),
+    path('doctor3/', doctor3, name='doctor'),
+    path('doctor_review/', doctor_review, name='doctor'),
     path('doctor_personalpage/', doctor_personalpage, name='doctor'),
-        path('media/<path:file_path>', media_view, name='media'),
-            path('scrape-doctors/', scrape_doctors_endpoint, name='scrape_doctors_endpoint'),
+    path('doctor_personalpage2/', doctor_personalpage2, name='doctor'),
+    path('media/<path:file_path>', media_view, name='media'),
+     path('book_appointment/', book_appointment, name='doctor'),
+    path('scrape-doctors/', scrape_doctors_endpoint, name='scrape_doctors_endpoint'),
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += router.urls

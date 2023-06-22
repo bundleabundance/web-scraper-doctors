@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 from .models import CustomUser, Doctor, Institution, Insurance, Patient, HealthRecord, Appointment, Review,Services,Cv
 from .serializers import UserSerializer, DoctorSerializer, InstitutionSerializer, InsuranceSerializer, PatientSerializer, HealthRecordSerializer, AppointmentSerializer, ReviewSerializer,CvSerializer
 from django.shortcuts import render
-from .filters import DoctorFilter,ReviewFilter,CvFilter
+from .filters import DoctorFilter,ReviewFilter,CvFilter, AppointmentFilter
 from django.conf import settings
 from django.http import HttpResponseNotFound, FileResponse
 import os
 import requests
 import re
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from urllib.parse import urlparse, parse_qs
 
@@ -43,6 +43,8 @@ class HealthRecordViewSet(viewsets.ModelViewSet):
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AppointmentFilter
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
@@ -68,6 +70,9 @@ def media_view(request, file_path):
     # If the file doesn't exist, return a 404 response
     return HttpResponseNotFound('File not found')
 
+def index(request):
+    return render(request, 'index.html')
+
 def my_view(request):
     return render(request, 'my_template.html')
 
@@ -84,6 +89,12 @@ def doctor_review(request):
 
 def doctor_personalpage(request):
     return render(request, 'doctor_personalpage.html')
+
+def doctor_personalpage2(request):
+    return render(request, 'doctor_personalpage2.html')
+
+def book_appointment(request):
+    return render(request, 'book_appointment.html')
 
 BASE_URL = 'https://www.doktortakvimi.com/'
 
